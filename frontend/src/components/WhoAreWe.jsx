@@ -1,39 +1,41 @@
-import React from 'react'
-import {data} from '../restApi.json'
+import React from "react";
 
-const WhoAreWe = () => {
-  return (
-    <>
-      <section className='who_are_we' id='who_are_we'>
-        <div className="container">
-          <div className="text_banner">
-            {
-              data[0].who_we_are.slice(0,2).map(element=>(
-                <div className="card" key={element.id}>
-                  <h1 className='heading' style={{fontWeight: "300"}}>{element.number}</h1>
-                  <p>{element.title}</p>
-                </div>
-              ))
-            }
-          </div>
-          <div className="image_banner">
-            <img className='gradient_bg' src="center.svg" alt="gradientBg" />
-            <img src="whoweare.png" alt="food" />
-          </div>
-          <div className="text_banner">
-            {
-              data[0].who_we_are.slice(2).map(element=>(
-                <div className="card" key={element.id}>
-                  <h1 className='heading' style={{fontWeight: "300"}}>{element.number}</h1>
-                  <p>{element.title}</p>
-                </div>
-              ))
-            }
-          </div>
+const WhoAreWe = () => (
+  <section className="who_are_we" id="who_are_we">
+    <div className="container">
+
+      {/* Left Text */}
+      <div className="text_banner">
+        <div className="card">
+          <h1 className="heading" style={{ fontWeight: 300 }}>14</h1>
+          <p>Restaurants</p>
         </div>
-        </section> 
-    </>
-  )
-}
+        <div className="card">
+          <h1 className="heading" style={{ fontWeight: 300 }}>20</h1>
+          <p>Chef In Kitchen</p>
+        </div>
+      </div>
 
-export default WhoAreWe
+      {/* Center Image */}
+      <div className="image_banner">
+        <img className="gradient_bg" src="center.svg" alt="gradient background" />
+        <img src="whoweare.png" alt="food" />
+      </div>
+
+      {/* Right Text */}
+      <div className="text_banner">
+        <div className="card">
+          <h1 className="heading" style={{ fontWeight: 300 }}>08</h1>
+          <p>Years Of Experience</p>
+        </div>
+        <div className="card">
+          <h1 className="heading" style={{ fontWeight: 300 }}>200</h1>
+          <p>Food Dishes</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+);
+
+export default WhoAreWe;

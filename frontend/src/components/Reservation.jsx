@@ -5,35 +5,42 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Reservation = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [phone, setPhone] = useState(""); // ✅ Changed from 0 to ""
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    date: "",
+    time: ""
+  });
 
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleReservation = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/reservation/send",
-        { firstName, lastName, email, phone, date, time },
+        formData,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
       toast.success(data.message);
-      setFirstName("");
-      setLastName("");
-      setPhone(""); // ✅ Changed from 0 to ""
-      setEmail("");
-      setTime("");
-      setDate("");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        date: "",
+        time: ""
+      });
       navigate("/success");
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -43,58 +50,70 @@ const Reservation = () => {
   return (
     <section className="reservation" id="reservation">
       <div className="container">
+        
+        {/* Left Banner */}
         <div className="banner">
-          <img src="/reservation.png" alt="res" />
+          <img src="/reservation.png" alt="reservation" />
         </div>
+
+        {/* Right Form */}
         <div className="banner">
           <div className="reservation_form_box">
             <h1>MAKE A RESERVATION</h1>
             <p>For Further Questions, Please Call</p>
-            <form onSubmit={handleReservation}> {/* ✅ Added onSubmit */}
+
+            <form onSubmit={handleReservation}>
               <div>
                 <input
                   type="text"
+                  name="firstName"
                   placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={formData.firstName}
+                  onChange={handleChange}
                 />
                 <input
                   type="text"
+                  name="lastName"
                   placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={formData.lastName}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <input
                   type="date"
+                  name="date"
                   placeholder="Date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  value={formData.date}
+                  onChange={handleChange}
                 />
                 <input
                   type="time"
+                  name="time"
                   placeholder="Time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
+                  value={formData.time}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <input
                   type="email"
-                  placeholder="Email"
+                  name="email"
                   className="email_tag"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
                 <input
                   type="number"
+                  name="phone"
                   placeholder="Phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={formData.phone}
+                  onChange={handleChange}
                 />
               </div>
-              <button type="submit"> {/* ✅ Removed onClick */}
+
+              <button type="submit">
                 RESERVE NOW{" "}
                 <span>
                   <HiOutlineArrowNarrowRight />
@@ -103,6 +122,7 @@ const Reservation = () => {
             </form>
           </div>
         </div>
+
       </div>
     </section>
   );

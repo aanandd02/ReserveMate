@@ -8,13 +8,18 @@ import { dbConnection } from "./database/dbConnection.js";
 const app = express();
 dotenv.config({ path: "./config/config.env" });
 
-// ✅ Ensure that FRONTEND_URL is correctly set
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+// ✅ Allowed frontend URLs
+const allowedOrigins = [
+  "http://localhost:5173",                 // local dev frontend
+  "https://reservemate-o9h6.onrender.com" // deployed frontend
+];
 
+// ✅ CORS middleware
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || origin === "http://localhost:5173") {
+      // browser requests without origin (like Postman) ko bhi allow karenge
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
@@ -25,8 +30,7 @@ app.use(
   })
 );
 
-
-// ✅ Preflight request ko manually handle karein
+// ✅ Preflight request handle
 app.options("*", cors());
 
 app.use(express.json());
@@ -34,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ✅ Routes
 app.use("/api/v1/reservation", reservationRouter);
+
 app.get("/", (req, res) => {
   return res.status(200).json({
     success: true,

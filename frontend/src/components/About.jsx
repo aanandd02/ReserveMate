@@ -1,24 +1,24 @@
 import React from "react";
+import "./About.css";
 import { Link } from "react-scroll";
 import { HiOutlineArrowRight } from "react-icons/hi";
 
 const About = () => (
   <section className="about" id="about">
     <div className="container">
-      
+
       {/* Left Content */}
       <div className="banner">
         <div className="top">
           <h1 className="heading">ABOUT US</h1>
-          <p>The only thing we're serious about is food.</p>
+          <p className="subheading">The only thing we're serious about is food.</p>
         </div>
 
         <p className="mid">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident possimus optio 
-          adipisci dolores impedit illum iusto perferendis, laudantium quod accusamus 
-          consequuntur consectetur, tempore nulla error iure reiciendis dolorem assumenda. 
-          Necessitatibus fugit asperiores totam rem esse exercitationem iusto ipsum qui 
-          dolore ex, accusantium repellat mollitia repellendus.
+          Welcome to Shukla Bites — a place where culinary passion meets perfection. 
+          Every dish is crafted with fresh ingredients, bold flavors, and love for food. 
+          Our chefs take pride in serving you experiences that delight your senses 
+          and bring joy to every bite.
         </p>
 
         <Link 
@@ -26,16 +26,22 @@ const About = () => (
           smooth={true} 
           duration={500} 
           spy={true}
-          className="exploreMenuBtn"
+          className="exploreBtn"
         >
-          Explore Menu <span><HiOutlineArrowRight /></span>
+          Explore Menu <HiOutlineArrowRight className="arrowIcon" />
         </Link>
       </div>
 
       {/* Right Image */}
       <div className="banner">
-        <img src="about.png" alt="about" />
+        <div className="about_image_placeholder">
+          <img 
+            src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+            alt="Restaurant Interior" 
+          />
+        </div>
       </div>
+
     </div>
   </section>
 );

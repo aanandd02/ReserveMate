@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Poppins:wght@300;400;500&display=swap");
+
+.qualities {
+  background: radial-gradient(circle at top left, #fff7f1, #ffe3cc);
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Floating glowing shapes for background aesthetics */
+.qualities::before,
+.qualities::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  animation: float 10s ease-in-out infinite;
+  z-index: 0;
+}
+
+.qualities::before {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+  background: #ff4d00;
+}
+.qualities::after {
+  width: 250px;
+  height: 250px;
+  bottom: -100px;
+  right: -100px;
+  background: #ffb677;
+  animation-delay: 3s;
+}
+
+/* Section Heading */
+.heading_section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 60px;
+}
+
+.heading_section h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: 2.8rem;
+  color: #ff4d00;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  animation: fadeUp 1s ease;
+}
+
+.heading_section p {
+  color: #333;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 500;
+  animation: fadeUp 1.3s ease;
+}
+
+/* Container Grid */
+.qualities .container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Card Styling --- */
+.card {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  padding: 45px 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(255, 77, 0, 0.1);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: fadeUp 1.5s ease;
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(255, 77, 0, 0.25);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* --- Icon --- */
+.icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 4px 8px rgba(255, 77, 0, 0.3));
+}
+
+.card:hover .icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* --- Title --- */
+.title {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+/* --- Description --- */
+.description {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
+  font-weight: 400;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+/* --- Animations --- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .qualities {
+    padding: 80px 0;
+  }
+
+  .heading_section h2 {
+    font-size: 2.2rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 35px 25px;
+  }
+
+  .icon {
+    font-size: 3rem;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+}

@@ -1,49 +1,68 @@
 import React from "react";
+import "./Team.css";
+import { FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
 
+const teamMembers = [
+  {
+    name: "Jonathan Tyler",
+    role: "Founder & Head Chef",
+    avatar: "https://randomuser.me/api/portraits/men/45.jpg",
+    socials: { linkedin: "#", twitter: "#", instagram: "#" },
+  },
+  {
+    name: "Wade Warren",
+    role: "Sous Chef",
+    avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+    socials: { linkedin: "#", twitter: "#", instagram: "#" },
+  },
+  {
+    name: "Jhon Doe",
+    role: "Fast Food Chef",
+    avatar: "https://randomuser.me/api/portraits/men/47.jpg",
+    socials: { linkedin: "#", twitter: "#", instagram: "#" },
+  },
+  {
+    name: "Alex Coal",
+    role: "Senior Chef",
+    avatar: "https://randomuser.me/api/portraits/men/48.jpg",
+    socials: { linkedin: "#", twitter: "#", instagram: "#" },
+  },
+];
 
-const Team = () => (
-  <section className="team" id="team">
-    <div className="container">
-      
-      {/* Heading Section */}
-      <div className="heading_section">
-        <h1 className="heading">OUR TEAM</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
-          fugit dicta, ipsum impedit quam laboriosam quas doloremque quia
-          perferendis laborum.
-        </p>
-      </div>
-
-      {/* Team Members */}
+const Team = () => {
+  return (
+    <section className="team_section" id="team">
       <div className="team_container">
-        <div className="card">
-          <img src="./team_member_1.png" alt="JOHNATHAN TYLER" />
-          <h3>JOHNATHAN TYLER</h3>
-          <p>Founder & Head Chef</p>
+        <div className="team_header">
+          <h1>OUR TEAM</h1>
+          <p>
+            Meet the passionate chefs and culinary experts behind{" "}
+            <span className="brand">SHUKLA_BITES</span>. Each one brings
+            creativity and a unique skill to our kitchen.
+          </p>
         </div>
 
-        <div className="card">
-          <img src="./team_member_2.png" alt="WADE WARREN" />
-          <h3>WADE WARREN</h3>
-          <p>Sous Chef</p>
-        </div>
-
-        <div className="card">
-          <img src="./team_member_3.png" alt="JHON DOE" />
-          <h3>JHON DOE</h3>
-          <p>Fast Food Chef</p>
-        </div>
-
-        <div className="card">
-          <img src="./team_member_4.png" alt="ALEX COAL" />
-          <h3>ALEX COAL</h3>
-          <p>Senior Chef</p>
+        <div className="team_grid">
+          {teamMembers.map((member, idx) => (
+            <div className="team_card" key={idx}>
+              <div className="card_image">
+                <img src={member.avatar} alt={member.name} />
+                <div className="overlay">
+                  <div className="socials">
+                    <a href={member.socials.linkedin}><FaLinkedin /></a>
+                    <a href={member.socials.twitter}><FaTwitter /></a>
+                    <a href={member.socials.instagram}><FaInstagram /></a>
+                  </div>
+                </div>
+              </div>
+              <h3>{member.name}</h3>
+              <p className="role">{member.role}</p>
+            </div>
+          ))}
         </div>
       </div>
-
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Team;

@@ -1,0 +1,182 @@
+.who_are_we {
+  padding: 120px 0;
+  background: radial-gradient(circle at top left, #fff4ec, #ffd8b0);
+  overflow: hidden;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Glowing gradient orbs for background aesthetics */
+.who_are_we::before,
+.who_are_we::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  animation: float 10s ease-in-out infinite;
+}
+.who_are_we::before {
+  width: 300px;
+  height: 300px;
+  background: #ff5e00;
+  top: -80px;
+  left: -80px;
+}
+.who_are_we::after {
+  width: 250px;
+  height: 250px;
+  background: #ffb77a;
+  bottom: -80px;
+  right: -100px;
+  animation-delay: 4s;
+}
+
+.container {
+  width: 90%;
+  max-width: 1150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Stats cards */
+.text_banner {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  animation: fadeUp 1s ease forwards;
+}
+
+.card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  text-align: center;
+  padding: 25px 35px;
+  box-shadow: 0 5px 25px rgba(255, 77, 0, 0.15);
+  transition: all 0.4s ease;
+}
+.card:hover {
+  transform: translateY(-8px) scale(1.03);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 35px rgba(255, 77, 0, 0.25);
+}
+
+.card .heading {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ff4d00;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Center Image Section */
+.image_banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle_image {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border: 8px solid rgba(255, 77, 0, 0.6);
+  box-shadow: 0 0 40px rgba(255, 77, 0, 0.4);
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+.circle_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.05);
+  transition: transform 5s ease;
+}
+
+.circle_image:hover img {
+  transform: scale(1.1) rotate(2deg);
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .text_banner {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .circle_image {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 20px;
+  }
+  .card .heading {
+    font-size: 2.2rem;
+  }
+  .circle_image {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 35px rgba(255, 77, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 60px rgba(255, 77, 0, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 35px rgba(255, 77, 0, 0.5);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+}

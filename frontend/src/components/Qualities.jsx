@@ -1,37 +1,37 @@
 import React from "react";
-
+import "./Qualities.css";
 
 const Qualities = () => (
   <section className="qualities" id="qualities">
-    <div className="container">
+    <div className="heading_section">
+      <h2>Why Choose Us</h2>
+      <p>We blend taste, speed, and quality to serve you an unforgettable dining experience.</p>
+    </div>
 
+    <div className="container">
       <div className="card">
-        <img src="./quality_food.svg" alt="QUALITY FOOD" />
+        <div className="icon">🍽️</div>
         <p className="title">QUALITY FOOD</p>
         <p className="description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-          repellendus officia qui repellat.
+          Handpicked ingredients, authentic recipes, and expert chefs ensure every dish tastes divine.
         </p>
       </div>
 
       <div className="card">
-        <img src="./super_taste.svg" alt="SUPER TASTE" />
+        <div className="icon">😋</div>
         <p className="title">SUPER TASTE</p>
         <p className="description">
-          Lorem ipsum dolor sit amet consectetur, adipisicing sit amet elit. Sit
-          voluptates quaerat pariatur.
+          Each bite bursts with flavor — because we believe great taste is the heart of every meal.
         </p>
       </div>
 
       <div className="card">
-        <img src="./fast_delivery.svg" alt="FAST DELIVERY" />
+        <div className="icon">⚡</div>
         <p className="title">FAST DELIVERY</p>
         <p className="description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-          repellendus officia qui repellat.
+          Fresh and hot meals, delivered at lightning speed — satisfaction served on time, every time.
         </p>
       </div>
-
     </div>
   </section>
 );

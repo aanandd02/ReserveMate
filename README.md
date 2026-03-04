@@ -1,55 +1,138 @@
-# 🍽️ **ReserveMate: Intelligent Restaurant Booking System**  
+# ReserveMate
 
-## 🚀 Project Overview  
-ReserveMate is a smart and efficient **restaurant booking system** built using the **MERN stack**. It allows users to seamlessly reserve tables while ensuring smooth performance and secure data management.  
+ReserveMate is a restaurant reservation platform with a React frontend and a Node.js/Express backend that stores bookings in AWS DynamoDB.
 
-## 🛠️ Tech Stack  
-- **Frontend:** React.js, JavaScript, CSS  
-- **Backend:** Node.js, Express.js, MongoDB  
-- **Database:** MongoDB for secure and scalable data storage  
+## What is implemented
+- Marketing-style restaurant landing page with smooth section navigation.
+- Menu carousel with dish cards.
+- Reservation form with client-side validation.
+- Backend API endpoint to create reservations.
+- Success page with animated confirmation flow.
+- 404 page for unknown routes.
 
-## ✨ Features  
-- ✅ **User-Friendly Booking System** – Easily reserve tables by entering your details.  
-- ✅ **Secure Authentication** – Protects user data with authentication and error handling.  
-- ✅ **Optimized API Performance** – Fast and scalable backend processing.   
+## Current architecture
+- `frontend`: React + Vite SPA.
+- `backend`: Express app (`app.js`) wrapped for serverless execution (`lambda.js`).
+- Database: AWS DynamoDB (`Reservations` table).
 
-## 🏗️ Installation & Setup  
+## Tech stack
+- Frontend: React, Vite, React Router, Axios, Framer Motion, React Hot Toast.
+- Backend: Node.js, Express, CORS, AWS SDK v3 (DynamoDB Document Client), UUID.
+- Cloud: AWS Lambda + DynamoDB (intended deployment model from current code).
 
-### 1️⃣ Clone the Repository  
-```bash
-git clone https://github.com/your-username/reservemate.git
-cd reservemate
+## Project structure
+```text
+ReserveMate/
+  frontend/
+    src/
+    public/
+  backend/
+    app.js
+    lambda.js
+    controller/reservation.js
+    routes/reservationRoute.js
+    database/dynamoDb.js
+    middlewares/error.js
 ```
 
-### 2️⃣ Install Dependencies  
-#### Backend:  
-```bash
-npm install
+## API contract
+Base path: `/api/v1/reservation`
+
+### Create reservation
+- Method: `POST`
+- Path: `/send`
+- Body:
+```json
+{
+  "firstName": "Anand",
+  "lastName": "Shukla",
+  "email": "anand@example.com",
+  "date": "2026-03-10",
+  "time": "19:30",
+  "phone": "9999999999"
+}
 ```
-#### Frontend:  
-```bash
-cd client
-npm install
+- Success response: `201`
+```json
+{
+  "success": true,
+  "message": "Reservation Sent Successfully!"
+}
+```
+- Error response: `4xx/5xx`
+```json
+{
+  "success": false,
+  "message": "Please fill full reservation form!"
+}
 ```
 
-### 3️⃣ Run the Project  
-Start both frontend and backend together using:  
+## Environment variables
+
+### Frontend (`frontend/.env`)
 ```bash
+VITE_BACKEND_URL=http://localhost:4000
+```
+Use your deployed API base URL in production.
+
+### Backend
+No `.env` variables are currently consumed by backend code. AWS region is hardcoded as `ap-south-1` in `backend/database/dynamoDb.js`.
+
+For production, move these to env vars:
+- `AWS_REGION`
+- `DYNAMODB_TABLE_NAME`
+- `ALLOWED_ORIGIN`
+
+## Local development
+
+### 1. Install dependencies
+```bash
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+### 2. Start frontend
+```bash
+cd frontend
 npm run dev
 ```
 
-## 📷 Screenshots  
-<img width="1440" alt="Screenshot 2025-02-21 at 10 04 58 AM" src="https://github.com/user-attachments/assets/9b4dd74a-d9e2-4134-af80-0dc089faa06c" />
-<img width="1440" alt="Screenshot 2025-02-21 at 10 05 20 AM" src="https://github.com/user-attachments/assets/b9c2aaf5-a34e-4f39-846d-0fc8435e3ae1" />
-<img width="1440" alt="Screenshot 2025-02-21 at 10 05 45 AM" src="https://github.com/user-attachments/assets/68688d04-bca1-4023-aaa7-b00ec9cfab22" />
-<img width="1440" alt="Screenshot 2025-02-21 at 10 06 02 AM" src="https://github.com/user-attachments/assets/96f796a4-64fd-46de-9aaa-b6d457de2146" />
-<img width="1440" alt="Screenshot 2025-02-21 at 10 06 21 AM" src="https://github.com/user-attachments/assets/84d43e2f-0111-414a-ad0e-2161118f8aee" />
-<img width="1440" alt="Screenshot 2025-02-21 at 10 06 41 AM" src="https://github.com/user-attachments/assets/db8c65fd-55ad-4e22-a43a-51022923a685" />
+### 3. Start backend (important)
+Current `backend/package.json` scripts point to `server.js`, but `server.js` is not present in the repository.
 
+You have two valid options:
+1. Deploy/run as Lambda using `backend/lambda.js`.
+2. Add a local bootstrap file (`server.js`) that imports `app` and starts `app.listen(...)`.
 
-## 📜 License  
-This project is open-source under the **MIT License**.  
+Minimal `server.js` example:
+```js
+import app from "./app.js";
 
----
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
+```
 
-Developed with ❤️ by **Anand Shukla** 🚀  
+## DynamoDB table requirements
+Create table: `Reservations`
+- Partition key: `id` (String)
+- Recommended additional attributes:
+  - `firstName`, `lastName`, `email`, `phone`, `date`, `time`, `createdAt`
+
+Ensure Lambda/runner IAM policy allows `dynamodb:PutItem` on this table.
+
+## Deployment notes (production)
+- Host frontend on Vercel/Netlify/S3+CloudFront.
+- Deploy backend as Lambda behind API Gateway.
+- Set strict CORS origins instead of `origin: true`.
+- Add request validation/rate limiting.
+- Add structured logging and monitoring (CloudWatch).
+- Add CI checks (`lint`, build, smoke API test).
+
+## Known gaps in current repository
+- Backend runtime scripts reference missing `server.js`.
+- Backend `package.json` does not list all currently used imports (`@aws-sdk/client-dynamodb`, `@aws-sdk/lib-dynamodb`, `uuid`, `serverless-http`), even though code imports them.
+
+## License
+No license file is currently included. Add `LICENSE` if this will be shared publicly.

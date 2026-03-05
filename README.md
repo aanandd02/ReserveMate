@@ -1,50 +1,44 @@
+
 # ReserveMate
 
-A full-stack restaurant reservation web application with a modern React frontend and a Node.js/Express backend powered by AWS DynamoDB.
+**ReserveMate** is a full-stack restaurant reservation web application built with **React**, **Node.js/Express**, and **AWS DynamoDB**.  
+Users can explore a restaurant landing page, browse dishes, and reserve tables through a responsive booking interface.
 
-ReserveMate helps users explore a restaurant landing page, browse dishes, and submit table reservations through a responsive, animated booking flow.
+---
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Environment Configuration](#environment-configuration)
-- [API Reference](#api-reference)
-- [Data Model](#data-model)
-- [Deployment Notes](#deployment-notes)
-- [Troubleshooting](#troubleshooting)
-- [Known Gaps](#known-gaps)
-- [Suggested Improvements](#suggested-improvements)
-- [License](#license)
+# Project Overview
 
-## Project Overview
-ReserveMate is designed as a restaurant booking platform with:
-- A single-page marketing and reservation interface (React + Vite)
-- A reservation API service (Express)
-- Cloud persistence in DynamoDB (`Reservations` table)
-- Optional serverless deployment via AWS Lambda (`serverless-http` wrapper)
+ReserveMate includes:
 
-## Key Features
-### Frontend
-- Responsive landing page with multiple sections: Hero, About, Services, Menu, Team, Reservation, Footer
-- Sticky/animated navbar with smooth section scrolling
-- Interactive menu carousel containing Indian dishes with categories and prices
-- Reservation form with required-field validation and toast notifications
-- Success page with confetti animation and auto-redirect to home
-- Custom 404 page with animated UI
+- **Single-page frontend** built with React + Vite  
+- **Reservation API** built with Express  
+- **Cloud database** using DynamoDB (`Reservations` table)  
+- **Optional serverless deployment** using AWS Lambda
 
-### Backend
-- REST API endpoint for reservation creation
-- Basic input presence validation for all required fields
-- Structured error handling middleware
-- Reservation persistence with unique UUID records in DynamoDB
-- Root health route (`/`) for service availability check
+---
 
-## Tech Stack
-### Frontend
+# Key Features
+
+## Frontend
+- Responsive landing page (Hero, About, Services, Menu, Team, Reservation)
+- Sticky navbar with smooth scrolling
+- Menu carousel with categorized dishes
+- Reservation form with validation
+- Success page with confetti animation
+- Custom animated 404 page
+
+## Backend
+- REST API for reservation creation
+- Required field validation
+- Error handling middleware
+- DynamoDB storage with UUID records
+- Health check endpoint (`/`)
+
+---
+
+# Tech Stack
+
+## Frontend
 - React 18
 - Vite 5
 - React Router DOM
@@ -55,151 +49,177 @@ ReserveMate is designed as a restaurant booking platform with:
 - React Icons
 - React Scroll
 
-### Backend
-- Node.js (ES Modules)
-- Express 4
+## Backend
+- Node.js
+- Express
 - CORS
-- AWS SDK v3 (`@aws-sdk/client-dynamodb`, `@aws-sdk/lib-dynamodb`)
+- AWS SDK v3
 - UUID
 - Serverless HTTP
 
-### Infrastructure
+## Infrastructure
 - AWS DynamoDB
-- AWS Lambda (optional runtime path in current codebase)
+- AWS Lambda (optional)
 
-## Architecture
-1. User submits reservation form on frontend.
-2. Frontend sends `POST` request to backend endpoint.
-3. Backend validates required request fields.
-4. Backend writes reservation record to DynamoDB.
+---
+
+# Architecture
+
+1. User submits reservation form from frontend.
+2. Frontend sends a **POST request** to backend API.
+3. Backend validates request fields.
+4. Reservation is stored in **DynamoDB**.
 5. Backend returns success/error response.
-6. Frontend shows toast feedback and routes to success page.
+6. Frontend displays feedback and redirects to success page.
 
-## Project Structure
-```text
-ReserveMate/
-  frontend/
-    public/images/
-    src/
-      Pages/
-      components/
-      App.jsx
-      main.jsx
-    package.json
-    vite.config.js
-  backend/
-    app.js
-    lambda.js
-    controller/
-      reservation.js
-    routes/
-      reservationRoute.js
-    database/
-      dynamoDb.js
-    middlewares/
-      error.js
-    package.json
-  README.md
+---
+
+# Project Structure
+
 ```
 
-## Getting Started
-### Prerequisites
+ReserveMate/
+frontend/
+public/images/
+src/
+Pages/
+components/
+App.jsx
+main.jsx
+
+backend/
+app.js
+lambda.js
+controller/
+reservation.js
+routes/
+reservationRoute.js
+database/
+dynamoDb.js
+middlewares/
+error.js
+
+README.md
+
+````
+
+---
+
+# Getting Started
+
+## Prerequisites
+
 - Node.js 18+
 - npm 9+
-- AWS account and credentials with permission to write to DynamoDB
+- AWS account with DynamoDB access
 
-### 1. Clone and enter the project
+---
+
+# 1. Clone the Repository
+
 ```bash
 git clone <your-repository-url>
 cd ReserveMate
+````
+
+---
+
+# 2. Install Dependencies
+
+```bash
+cd backend
+npm install
+
+cd ../frontend
+npm install
 ```
 
-### 2. Install dependencies
-```bash
-cd backend && npm install
-cd ../frontend && npm install
-```
+---
 
-### 3. Configure environment
-Create frontend env file:
-```bash
-# frontend/.env
+# 3. Configure Environment
+
+Create `.env` file inside **frontend**
+
+```env
 VITE_BACKEND_URL=http://localhost:4000
 ```
 
-### 4. Run frontend
+---
+
+# 4. Run Frontend
+
 ```bash
 cd frontend
 npm run dev
 ```
-Default Vite URL is typically `http://localhost:5173`.
 
-### 5. Run backend
-Current backend scripts expect `backend/server.js`, but that file is not present in the repository.
+Default Vite URL:
 
-Use one of these approaches:
-- Add `server.js` for local Express runtime.
-- Run as Lambda handler through your serverless setup using `backend/lambda.js`.
+```
+http://localhost:5173
+```
 
-Minimal local `server.js`:
-```js
+---
+
+# 5. Run Backend
+
+Create `server.js` inside **backend**
+
+```javascript
 import app from "./app.js";
 
 const PORT = process.env.PORT || 4000;
+
 app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 ```
 
-## Environment Configuration
-### Frontend
-- `VITE_BACKEND_URL`: Base URL of backend API.
+Run backend:
 
-Example:
 ```bash
-VITE_BACKEND_URL=http://localhost:4000
+node server.js
 ```
 
-### Backend
-Current code hardcodes some backend values:
-- AWS region is set as `ap-south-1` in `backend/database/dynamoDb.js`
-- DynamoDB table name is set as `Reservations` in `backend/controller/reservation.js`
+---
 
-Recommended production env vars:
-- `AWS_REGION`
-- `DYNAMODB_TABLE_NAME`
-- `ALLOWED_ORIGIN`
-- `PORT` (for local/non-serverless runtime)
+# API Reference
 
-## API Reference
-Base URL (local example):
-```text
+Base URL
+
+```
 http://localhost:4000
 ```
 
-Base path:
-```text
+Base Path
+
+```
 /api/v1/reservation
 ```
 
-### Health Check
-- Method: `GET`
-- Endpoint: `/`
+---
 
-Success response:
+# Health Check
+
+**GET /**
+
+Response
+
 ```json
 {
   "success": true,
-  "message": "Backend Running 🚀"
+  "message": "Backend Running"
 }
 ```
 
-### Create Reservation
-- Method: `POST`
-- Endpoint: `/api/v1/reservation/send`
-- Content-Type: `application/json`
+---
 
-Request body:
+# Create Reservation
+
+**POST /api/v1/reservation/send**
+
+Request Body
+
 ```json
 {
   "firstName": "Anand",
@@ -211,68 +231,83 @@ Request body:
 }
 ```
 
-Success response (`201`):
+Response
+
 ```json
 {
   "success": true,
-  "message": "Reservation Sent Successfully!"
+  "message": "Reservation Sent Successfully"
 }
 ```
 
-Validation error example (`400`):
-```json
-{
-  "success": false,
-  "message": "Please fill full reservation form!"
-}
+---
+
+# Data Model
+
+DynamoDB Table: **Reservations**
+
+Fields:
+
+* `id` (UUID)
+* `firstName`
+* `lastName`
+* `email`
+* `phone`
+* `date`
+* `time`
+* `createdAt`
+
+---
+
+# Deployment
+
+## Frontend
+
+Deploy on:
+
+* Vercel
+* Netlify
+* AWS S3 + CloudFront
+
+---
+
+## Backend
+
+Deploy using:
+
+* AWS Lambda
+* API Gateway
+
+---
+
+# Common Issues
+
+## Backend URL not configured
+
+Add `.env` file in frontend:
+
+```env
+VITE_BACKEND_URL=http://localhost:4000
 ```
 
-## Data Model
-DynamoDB table: `Reservations`
+Restart Vite server.
 
-Recommended schema:
-- Partition key: `id` (String)
+---
 
-Stored attributes:
-- `id` (UUID)
-- `firstName`
-- `lastName`
-- `email`
-- `phone`
-- `date`
-- `time`
-- `createdAt` (ISO timestamp)
+## Reservation not saving
 
-## Deployment Notes
-### Frontend
-Deploy to any static host (Vercel, Netlify, S3 + CloudFront).
-
-### Backend
-Deploy Express app as AWS Lambda using `lambda.js` + API Gateway.
-
-### Production checklist
-- Restrict CORS origins
-- Move hardcoded settings to env vars
-- Add request validation and sanitization
-- Add rate limiting and security headers
-- Enable structured logs and monitoring
-- Add CI/CD for lint, build, and smoke tests
-
-## Troubleshooting
-### `Backend URL not configured!` in frontend
-Set `VITE_BACKEND_URL` in `frontend/.env` and restart Vite dev server.
-
-### `npm run dev` fails in backend
-`server.js` is missing. Create it (see example above) or run via serverless setup.
-
-### Reservation not saving to database
 Check:
-- AWS credentials are available to runtime
-- Region matches your DynamoDB table region
-- Table name is exactly `Reservations`
-- IAM policy allows `dynamodb:PutItem`
 
-## Known Gaps
-- `backend/package.json` currently misses some dependencies used in code (`@aws-sdk/client-dynamodb`, `@aws-sdk/lib-dynamodb`, `uuid`, `serverless-http`).
-- `backend/server.js` is referenced in scripts but absent.
-- Some backend dependencies listed are currently unused (`mongoose`, `validator`, `dotenv` in present code path).
+* AWS credentials are configured
+* DynamoDB region is correct
+* Table name is `Reservations`
+* IAM policy allows `dynamodb:PutItem`
+
+---
+
+# License
+
+This project is open-source and free to use.
+
+
+
